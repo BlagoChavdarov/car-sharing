@@ -19,12 +19,14 @@ const Login = () => {
 
         let email = formData.get('email');
         let password = formData.get('password');
+        let user_nm = formData.get('user_nm');
 
-        authService.login(email, password)
+        authService.login(email, password,user_nm)
             .then((authData) => {
+                console.info(authData);
                 login(authData);
-
-                // navigate('/dashboard');
+                
+                navigate('/dashboard');
             })
             .catch(err => {
                 // TODO: show notification
@@ -50,6 +52,13 @@ const Login = () => {
                             <input type="password" name="password" id="password" placeholder="Password" />
                         </span>
                     </p>
+                    <p className="field">
+                        <label htmlFor="user_nm">User Name</label>
+                        <span className="input">
+                            <input type="text" name="user_nm" id="user_nm" placeholder="First Last Name" />
+                        </span>
+                    </p>
+
                     <input className="button submit" type="submit" value="Login" />
                 </fieldset>
             </form>

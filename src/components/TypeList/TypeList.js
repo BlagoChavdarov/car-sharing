@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 
-
-
 import * as typeServices from '../../services/typeServices';
 
 import TypeCard from "./TypeCard/TypeCard";
-
 
 const TypeList = () => {
     const [pets, setPets] = useState([]);

@@ -1,24 +1,25 @@
-const baseUrl = 'http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.php?method=';
+const baseUrl = 'http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.asp?method=';
 
 export const login = async (email, password,user_nm) => {
     
-    console.log("email:"+email);
+    console.log("4444444444:"+email);
    
     
 
 
-    let response = await fetch(`http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.asp?method=login`,{
+    let response = await fetch(`${baseUrl}login`,{
         method: 'POST',
         body: JSON.stringify({ email, password,user_nm })
     });
 
-    let pets = await response.json();
-    console.info(pets);
-    let result = Object.values(pets)
-
- 
-    console.info(result);
-    return result;
+    let json_data = await response.json();
+    if( json_data.status === "error" ){
+        throw(json_data.description);
+        console.log("BBBB error ????");
+    }
+    console.info("->>>>>>"+json_data.status);
+    console.info(json_data.data);
+    return json_data.data;
     // let res = await fetch(baseUrl+'login', {
     //     method: 'POST',
     //     mode: 'no-cors', 

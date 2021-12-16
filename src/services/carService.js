@@ -2,29 +2,32 @@ const baseUrl = 'http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.asp?
 
 
 
-export const add = async (car_plate, description,user_num,sess) => {
+export const add = async (car_plate, description, user_num, sess) => {
 
-    let res = await fetch(`${baseUrl}create_car`, {
+
+
+
+
+    let response = await fetch(`${baseUrl}create_car`,{
         method: 'POST',
-        mode: 'no-cors', 
-        headers: {
-            'Access-Control-Allow-Origin':'http://netsurf2.dev.dotcubes.com',
-            'content-type': 'text/plain'
-        },
-        body: JSON.stringify({car_plate, description,user_num,sess})
+        body: JSON.stringify({ car_plate, description,user_num,sess})
     });
-    
-    let carResult = await res.json();
-    
 
-    if (res.ok) {
-        return carResult;
-    } else {
-        throw carResult.message;
+    let json_data = await response.json();
+    if( json_data.status === "error" ){
+        throw(json_data.description);
+        console.log("BBBB error ????");
     }
+    console.info("->>>>>>"+json_data.status);
+    console.info(json_data.data);
+    return json_data.data;
 };
 
-export const getMyCars = async (user_num,sess) => {
+
+
+
+
+export const getMyCars = async (sess,user_num) => {
 
 
 
@@ -43,6 +46,7 @@ export const getMyCars = async (user_num,sess) => {
     }
 
 };
+
 
 
 
@@ -65,3 +69,16 @@ export const getVignetteData = async (sess,car_num) => {
     }
 };
 
+
+export const changeStatus = async (sess,car_num,status) => {
+    let response = await fetch(`${baseUrl}change_status`,{
+        method: 'POST',
+        body: JSON.stringify({car_num,sess,status})
+    });
+    let json_data = await response.json();
+    if( json_data.status === "error" ){
+        throw(json_data.description);
+    }else{
+        return json_data.data;
+    }
+};

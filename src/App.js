@@ -53,7 +53,7 @@ function App() {
         </main>
 
         <footer id="site-footer">
-          <p>@PetMyPet</p>
+          <p>Car Sharing</p>
         </footer>
       </div>
     </AuthContext.Provider>

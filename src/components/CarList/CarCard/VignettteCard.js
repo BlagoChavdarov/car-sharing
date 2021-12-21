@@ -20,16 +20,18 @@ const VignettteCard = ({
                 setVignette(result);
             })
     },[]);
-
+    //https://web.bgtoll.bg/Evignette/ValidityPeriod?vignetteVehicleTypeID=1
     return (
         <div>
-            <p className="description">От дата: {Vignette.issueDateFormated}</p>
-            <p className="description">До дата: {Vignette.validityDateToFormated}</p>
-            <p className="description">Статус: {Vignette.status}</p>
-            <p className="description">Сума: {Vignette.price} {Vignette.currency}</p>
-            <p className="description">Клас превозно средство: {Vignette.vehicleClass}</p>
-            <p className="description">Винетка №: {Vignette.vignetteNumber}</p>
+            <p >От дата: {Vignette.issueDateFormated}</p>
+            <p >До дата: {Vignette.validityDateToFormated}</p>
+            <p >Статус: {Vignette.status}</p>
+            <p >Сума: {Vignette.price} {Vignette.currency}</p>
+            <p >Клас превозно средство: {Vignette.vehicleClass}</p>
+            <p >Винетка №: {Vignette.vignetteNumber}</p>
+            <a href="#" onClick={()=> window.open("https://web.bgtoll.bg/Evignette/ValidityPeriod?vignetteVehicleTypeID=1", "_blank")} >Купи винетка</a>
         </div>
+        
     );
 }
 

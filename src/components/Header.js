@@ -12,10 +12,12 @@ const Header = () => {
             <nav className="navbar">
                 <section className="navbar-dashboard">
                     
-                    <span>Welcome, {user.nm}</span>
-                    <Link className="button" to="/login">Login</Link>
+                    <span>Welcome, <Link className="button" to="/change_info">{user.nm}</Link></span>
+                    
                     <Link className="button" to="/car/list">My Cars</Link>
+                    <Link className="button" to="/car/add">Add Car</Link>
                     <Link className="button" to="/car/search">Search Cars</Link>
+                    <Link className="button" to="/login">Login</Link>
                 </section>
             </nav>
         </header>

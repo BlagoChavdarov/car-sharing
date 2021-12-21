@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,30 @@ const AddCar = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [selectedFile, setSelectedFile] = useState();
+	const [isFilePicked, setIsSelected] = useState(false);
+
+	const ChangeHandler = (file) => {
+        console.info(file);
+        
+
+        
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setSelectedFile(reader.result);
+            console.log(reader.result);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+
+		console.info(selectedFile);
+	};
+
+    
+
+
     const onAddCarHandler = (e) => {
         e.preventDefault();
 
@@ -21,11 +45,18 @@ const AddCar = () => {
         let car_plate = CarData.get('car_plate');
         let description = CarData.get('description');
         let car_url = CarData.get('car_url');
+        let file = selectedFile;
+
+
+        
+        console.info("zzzz");
+        console.info(selectedFile);
+        console.info("EEEE");
         let user_num = user.user_num;
         let sess = user.sess;
 
 
-        carService.add(car_plate, description,user_num,sess)
+        carService.add(car_plate, description,user_num,file,sess)
         .then((carResult) => {
             console.info(carResult);
             
@@ -72,7 +103,11 @@ const AddCar = () => {
                             <input type="text" name="description" id="description" placeholder="Describe your car" />
                         </span>
                     </p>
-
+                    <p>
+                        <input type="file" id="file" name="file" onChange={(event) => {
+            ChangeHandler(event.target.files[0])
+        }}  />
+                    </p>
                     <input className="button submit" type="submit" value="Add" />
                 </fieldset>
             </form>

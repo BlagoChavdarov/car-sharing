@@ -37,8 +37,18 @@ const CarCard = ({
             <h3>Регистрационен номер: {carInfo.car_plate}</h3>
             <p className="description">Описание: {carInfo.description}</p>
             <p className="description">Статус: {carInfo.status_view}</p>
-            <p className="img"  ><img  width="100" height="100" src={carInfo.imageUrl} /></p>
-
+            <p className="description">Създаден на: {carInfo.createdon}</p>
+            {
+                    carInfo.createdon!=carInfo.last_update
+                ?
+                <p className="description">Последна промяна: {carInfo.last_update}</p>
+                :
+                ""
+            }
+            
+            
+            <p className="img" ><img  width="100" height="100" src={carInfo.imageUrl} /></p>
+                
             {
                 showComponent === "vignette" ?
                 <a href="#" className="button" onClick={() => CheckVignenette('')} >Скрий винетка</a>
@@ -64,23 +74,23 @@ const CarCard = ({
             }
             
 
-            <Link className="button" to={`/car/edit/${carInfo.car_num}`}>Редакция</Link>
+            <Link className="button" to={`/car/add/${carInfo.car_num}`}>Редакция</Link>
             {
                 carInfo.status === "private" ?
-                    <a href="#" className="button" onClick={publishCar} >Промени статус на Активен</a>
+                    <a href="#" className="button" onClick={publishCar} >Публикувай</a>
                 : 
                 ""
             }
             
             {
                 carInfo.status === "public" ?
-                    <a href="#" className="button" onClick={hideCar} >Покажи статус на Скрит</a>
+                    <a href="#" className="button" onClick={hideCar} >Скрий</a>
                 :
                     ""
             }
             {
                 carInfo.status !== "deleted" ?
-                    <a href="#" className="button" onClick={deleteCar} >Изтрий автомобил</a>
+                    <a href="#" className="button" onClick={deleteCar} >Изтрий</a>
                 :
                     ""
             }

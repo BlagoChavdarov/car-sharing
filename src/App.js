@@ -49,6 +49,8 @@ function App() {
             <Route path="/dashboard/*" element={<Dashboard  />} />
             <Route path="/car/add" element={<AddCar  />} />
             <Route path="/car/list" element={<CarList  />} />
+            
+            <Route path="/car/add/:car_num" element={<AddCar />} />
           </Routes>
         </main>
 

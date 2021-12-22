@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState,useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -6,10 +6,21 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 import * as carService from '../../services/carService';
 
+import { useParams } from 'react-router-dom';
+
+import useCarState from '../../hooks/useCarState';
+
 
 
 const AddCar = () => {
     const { user } = useContext(AuthContext);
+    const { car_num } = useParams(); 
+    let sess = user.sess;
+    
+    const [carInfo, setCarInfo] = useCarState(sess, car_num);
+    
+
+    
     const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
@@ -44,7 +55,6 @@ const AddCar = () => {
 
         let car_plate = CarData.get('car_plate');
         let description = CarData.get('description');
-        let car_url = CarData.get('car_url');
         let file = selectedFile;
 
 
@@ -53,10 +63,9 @@ const AddCar = () => {
         console.info(selectedFile);
         console.info("EEEE");
         let user_num = user.user_num;
-        let sess = user.sess;
 
 
-        carService.add(car_plate, description,user_num,file,sess)
+        carService.add(sess, car_plate, description, user_num, file, car_num)
         .then((carResult) => {
             console.info(carResult);
             
@@ -79,36 +88,52 @@ const AddCar = () => {
         //     });
     }
 
+    const deleteImage = (e) => {
+        e.preventDefault();
+
+        setCarInfo(state => ({...state, imageUrl: ''}))
+        
+    }
+
 
     return (
     <section id="add-car-page" className="addCar">
             <form id="add-car-form" onSubmit={onAddCarHandler} method="POST">
                 <fieldset>
-                    <legend>Add Car</legend>
+                    <legend>Добавяне на автомобил</legend>
                     <p className="field">
-                        <label htmlFor="car_plate">Car plate</label>
+                        <label htmlFor="car_plate">Регистрационен номер: </label>
                         <span className="input">
-                            <input type="text" name="car_plate" id="car_plate" placeholder="CA0000AA" />
+                            <input type="text" defaultValue={carInfo.car_plate} name="car_plate" id="car_plate" placeholder="CA0000AA" />
                         </span>
                     </p>
                     <p className="field">
-                        <label htmlFor="car_url">Car Image</label>
+                        <label htmlFor="description">Описание: </label>
                         <span className="input">
-                            <input type="text" name="car_url" id="car_url" placeholder="Image of your car" />
+                            <input type="text" defaultValue={carInfo.description} name="description" id="description" placeholder="Describe your car" />
                         </span>
                     </p>
-                    <p className="field">
-                        <label htmlFor="description">Description</label>
+
+                    <div className="field">
+                        <label htmlFor="car_url">Снимка: </label>
                         <span className="input">
-                            <input type="text" name="description" id="description" placeholder="Describe your car" />
+                            {
+                                carInfo.imageUrl
+                            ?
+                                <>
+                                    <div className="img"  ><img  width="100" height="100" src={carInfo.imageUrl} /></div>
+                                    <a href="#" className="button" onClick={deleteImage} >Изтрий</a>
+                                </>
+                                
+                            :
+                                <input type="file" id="file" name="file" onChange={(event) => {ChangeHandler(event.target.files[0])}}  />
+                            }
+                            
                         </span>
-                    </p>
-                    <p>
-                        <input type="file" id="file" name="file" onChange={(event) => {
-            ChangeHandler(event.target.files[0])
-        }}  />
-                    </p>
-                    <input className="button submit" type="submit" value="Add" />
+                    </div>
+
+                    
+                    <input className="button submit" type="submit" value="Потвърди" />
                 </fieldset>
             </form>
         </section>

@@ -2,10 +2,10 @@ const baseUrl = 'http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.asp?
 
 
 
-export const add = async (car_plate, description, user_num,file,sess) => {
+export const add = async (sess,car_plate, description, user_num,file,car_num) => {
     let response = await fetch(`${baseUrl}create_car`,{
         method: 'POST',
-        body: JSON.stringify({ car_plate, description,user_num,file,sess})
+        body: JSON.stringify({ car_plate, description,user_num,file,sess,car_num})
     });
 
     let json_data = await response.json();
@@ -19,6 +19,30 @@ export const add = async (car_plate, description, user_num,file,sess) => {
 };
 
 
+
+export const getOneCar = async (sess, car_num, signal) => {
+    console.info("car_numcar_numcar_numcar_num->>>"+car_num);
+    if(car_num !== undefined && car_num !== "" ){
+        
+        let response = await fetch(`${baseUrl}get_one_car`,{
+            signal,
+            method: 'POST',
+            body: JSON.stringify({sess, car_num})
+        });
+
+        let json_data = await response.json();
+        if( json_data.status === "error" ){
+            throw(json_data.description);
+            console.log("BBBB error ????");
+        }
+        console.info("->>>>>>"+json_data.status);
+        console.info(json_data.data);
+        return json_data.data;
+    
+    }else{
+        return {};
+    }
+}
 
 
 
@@ -105,4 +129,3 @@ export const addCarComment = async (sess, user_num, car_num, comment) => {
         return json_data.data;
     }
 }
-

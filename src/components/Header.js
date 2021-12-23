@@ -5,7 +5,15 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Header = () => {
-    const { user } = useContext(AuthContext);
+    const { user ,login } = useContext(AuthContext);
+
+    const logOut = (e) => {
+        e.preventDefault();
+        
+        login({});
+        
+    }
+
 
     return (
         <header id="site-header">
@@ -22,7 +30,13 @@ const Header = () => {
                     &nbsp;
                     <Link className="button" to="/login">Login</Link>
                     &nbsp;
-                    <Link className="button" to="/register">Register</Link>
+                    {
+                        user.sess ?
+                            <a href="#" className="button" onClick={logOut} >Logout</a>
+
+                        :
+                            <Link className="button" to="/register">Register</Link>
+                    }
                     &nbsp;
                 </section>
             </nav>

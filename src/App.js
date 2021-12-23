@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard/Dashboard';
 
 import Login from './components/Login';
+import Register from './components/Register';
 
 import AddCar from './components/AddCar/AddCar';
 
@@ -44,7 +45,7 @@ function App() {
 
         <main id="site-content">
           <Routes>
-            
+            <Route path="/register" element={<Register  />} />
             <Route path="/login" element={<Login  />} />
             <Route path="/dashboard/*" element={<Dashboard  />} />
             <Route path="/car/add" element={<AddCar  />} />

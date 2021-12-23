@@ -13,11 +13,17 @@ const Header = () => {
                 <section className="navbar-dashboard">
                     
                     <span>Welcome, <Link className="button" to="/change_info">{user.nm}</Link></span>
-                    
+                    &nbsp;
                     <Link className="button" to="/car/list">My Cars</Link>
+                    &nbsp;
                     <Link className="button" to="/car/add">Add Car</Link>
+                    &nbsp;
                     <Link className="button" to="/car/search">Search Cars</Link>
+                    &nbsp;
                     <Link className="button" to="/login">Login</Link>
+                    &nbsp;
+                    <Link className="button" to="/register">Register</Link>
+                    &nbsp;
                 </section>
             </nav>
         </header>

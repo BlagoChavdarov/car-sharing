@@ -1,13 +1,24 @@
 const baseUrl = 'http://netsurf2.dev.dotcubes.com/site-api/dispatch_request.asp?method=';
 
-export const login = async (email, password,user_nm) => {
+export const login = async (email, password) => {
     
-    console.log("4444444444:"+email);
-   
-    
-
-
     let response = await fetch(`${baseUrl}login`,{
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+    });
+
+    let json_data = await response.json();
+    if( json_data.status === "error" ){
+        throw(json_data.description);
+    }
+    
+    return json_data.data;
+};
+
+export const register = async (email, password,user_nm) => {
+    console.info("bbb");
+
+    let response = await fetch(`${baseUrl}register_new_user`,{
         method: 'POST',
         body: JSON.stringify({ email, password,user_nm })
     });
@@ -15,40 +26,21 @@ export const login = async (email, password,user_nm) => {
     let json_data = await response.json();
     if( json_data.status === "error" ){
         throw(json_data.description);
-        console.log("BBBB error ????");
     }
-    console.info("->>>>>>"+json_data.status);
-    console.info(json_data.data);
+    
     return json_data.data;
-    // let res = await fetch(baseUrl+'login', {
+
+    // let response = await fetch(`${baseUrl}register_new_user`,{
     //     method: 'POST',
-    //     mode: 'no-cors', 
-    //     headers: {
-    //         'Access-Control-Allow-Origin':'http://netsurf2.dev.dotcubes.com',
-    //         'content-type': 'application/json'
-    //     },
     //     body: JSON.stringify({ email, password,user_nm })
     // });
-    // console.info(res);
-    // let jsonResult = await res.json();
-    
 
-    // if (res.ok) {
-    //     return jsonResult;
-    // } else {
-    //     throw jsonResult.message;
+    // let json_data = await response.json();
+    // if( json_data.status === "error" ){
+    //     throw(json_data.description);
     // }
-};
-
-export const register = (email, password) => {
-    return fetch(`${baseUrl}/users/register`, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    })
-        .then(res => res.json()); 
+    
+    // return json_data.data;
 };
 
 export const logout = (token) => {

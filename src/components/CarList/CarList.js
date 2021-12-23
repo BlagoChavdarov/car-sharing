@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import CarCard from "./CarCard/CarCard";
+import { Alert } from 'react-bootstrap';
 
 const CarList = () => {
     const { user } = useContext(AuthContext);
@@ -16,11 +17,19 @@ const CarList = () => {
     const [myCars, setMyCars] = useState([]);
     const [reloadCount, setReloadCount] = useState(1);
 
+    const [endSession, setEndSession] = useState(0);
+    const [errors, setErrors] = useState({name: false});
+
+
     useEffect(() => {
         carService.getMyCars(user.sess,user.user_num)
             .then(result => {
                 setMyCars(result);
-            })
+            }).catch(err => {
+                setEndSession(1);
+                setErrors(state => ({...state, name: 'Изтекла сесия' }));
+                console.log(err);
+            });
     }, [reloadCount]);
 
     const handlerStatus = ({
@@ -37,6 +46,14 @@ const CarList = () => {
 
     return (
         <>
+            <Alert variant="danger" show={errors.name}>{errors.name}</Alert>
+            {
+                endSession
+                ?
+                    <Link className="button" to={`/login`}>Login</Link>
+                : 
+                    ""
+            }
             {myCars.length > 0
                 ? (
                     <ul className="my-car-list">

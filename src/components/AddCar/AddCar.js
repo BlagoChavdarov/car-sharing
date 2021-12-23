@@ -27,15 +27,10 @@ const AddCar = () => {
 	const [isFilePicked, setIsSelected] = useState(false);
 
 	const ChangeHandler = (file) => {
-        console.info(file);
-        
-
-        
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
             setSelectedFile(reader.result);
-            console.log(reader.result);
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
@@ -59,39 +54,25 @@ const AddCar = () => {
 
 
         
-        console.info("zzzz");
-        console.info(selectedFile);
-        console.info("EEEE");
+    
         let user_num = user.user_num;
+        let imageUrlDB = carInfo.imageUrlDB;
 
-
-        carService.add(sess, car_plate, description, user_num, file, car_num)
+        carService.add(sess, car_plate, description, user_num, file, car_num, imageUrlDB )
         .then((carResult) => {
-            console.info(carResult);
-            
-            navigate('/dashboard');
+            navigate('/car/list');
         })
         .catch(err => {
-            // TODO: show notification
             console.log(err);
         });
 
-        console.info(CarData);
-        // carService.add(CarData)
-        //     .then(CarData) => {
-        //         console.info("dddd");
-        //         navigate('/dashboard');
-        //     })
-        //     .catch(err => {
-        //         // TODO: show notification
-        //         console.log(err);
-        //     });
     }
 
     const deleteImage = (e) => {
         e.preventDefault();
 
         setCarInfo(state => ({...state, imageUrl: ''}))
+        setCarInfo(state => ({...state, imageUrlDB: ''}))
         
     }
 
@@ -110,7 +91,7 @@ const AddCar = () => {
                     <p className="field">
                         <label htmlFor="description">Описание: </label>
                         <span className="input">
-                            <input type="text" defaultValue={carInfo.description} name="description" id="description" placeholder="Describe your car" />
+                            <textarea defaultValue={carInfo.description} name="description" id="description" placeholder="Описание на автомобил"  />
                         </span>
                     </p>
 
